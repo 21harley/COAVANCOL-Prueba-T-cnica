@@ -1,24 +1,7 @@
-export interface Asociado {
-  id: number
-  codigo: string
-  nombre: string
-  identificacion: string
-  estado_pipeline: string
-  ultima_actualizacion: Date
-  createdAt: Date
-  updatedAt: Date
-}
-
-export interface UpdateEstadoRequest {
-  asociadoId: number | string
-  nuevoEstado: EstadoPipeline
-}
-
-export interface UpdateEstadoResponse {
-  success: boolean
-  message: string
-  data?: Asociado
-}
+/**
+ * Tipos comunes relacionados con la entidad Asociado
+ * Estos tipos son compartidos entre frontend y backend
+ */
 
 export const ESTADOS_VALIDOS = [
   "Prospecto",
@@ -42,4 +25,27 @@ export const TRANSICIONES_VALIDAS: Record<EstadoPipeline, EstadoPipeline[]> = {
   "Pendiente Revisión Abogado": ["Cartera Activa", "Desembolsado/Finalizado"],
   "Cartera Activa": ["Desembolsado/Finalizado"],
   "Desembolsado/Finalizado": []
+}
+
+// Interfaces compartidas
+export interface Asociado {
+  id: number
+  codigo: string
+  nombre: string
+  identificacion: string
+  estado_pipeline: string
+  ultima_actualizacion: Date
+  createdAt: Date
+  updatedAt: Date
+}
+
+export interface UpdateEstadoRequest {
+  asociadoId: number | string
+  nuevoEstado: EstadoPipeline
+}
+
+export interface UpdateEstadoResponse {
+  success: boolean
+  message: string
+  data?: Asociado
 }

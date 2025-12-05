@@ -16,4 +16,7 @@ router.post('/update-estado', asociadosController.updateEstadoPipeline.bind(asoc
 // Crear nuevo asociado
 router.post('/', asociadosController.createAsociado.bind(asociadosController))
 
+// Actualizar un asociado por ID
+router.patch('/:id', asociadosController.updateAsociadoID.bind(asociadosController))
+
 export default router

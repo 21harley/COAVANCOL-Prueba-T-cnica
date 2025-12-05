@@ -9,6 +9,62 @@ import {
 } from '../types/asociado'
 
 export class AsociadosController {
+  // Actualizar un asociado por ID (actualización parcial)
+  async updateAsociadoID(req: Request, res: Response) {
+    try {
+      const id = parseInt(req.params.id, 10);
+      
+      if (isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Se requiere un ID numérico válido'
+        });
+      }
+
+      const updateData = req.body;
+      
+      // Verificar si el cuerpo de la solicitud está vacío
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: 'No se proporcionaron datos para actualizar'
+        });
+      }
+
+      // Verificar si el asociado existe
+      const existingAsociado = await prisma.asociado.findUnique({
+        where: { id }
+      });
+
+      if (!existingAsociado) {
+        return res.status(404).json({
+          success: false,
+          message: 'Asociado no encontrado'
+        });
+      }
+
+      // Actualizar el asociado
+      const updatedAsociado = await prisma.asociado.update({
+        where: { id },
+        data: updateData
+      });
+
+      res.json({
+        success: true,
+        message: 'Asociado actualizado exitosamente',
+        data: updatedAsociado
+      });
+
+    } catch (error) {
+      console.error('Error al actualizar asociado:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Error al actualizar el asociado',
+        error: error instanceof Error ? error.message : 'Error desconocido'
+      });
+    }
+  }
+  
   
   // Obtener todos los asociados
   async getAllAsociados(req: Request, res: Response) {
@@ -35,7 +91,14 @@ export class AsociadosController {
   // Obtener un asociado por ID
   async getAsociadoById(req: Request, res: Response) {
     try {
-      const { id } = req.params
+      const id = parseInt(req.params.id, 10);
+      
+      if (isNaN(id)) {
+        return res.status(400).json({
+          success: false,
+          message: 'Se requiere un ID numérico válido'
+        });
+      }
       
       const asociado = await prisma.asociado.findUnique({
         where: { id }
@@ -64,7 +127,15 @@ export class AsociadosController {
   // Actualizar estado del pipeline
   async updateEstadoPipeline(req: Request, res: Response) {
     try {
-      const { asociadoId, nuevoEstado }: UpdateEstadoRequest = req.body
+      const { asociadoId, nuevoEstado }: UpdateEstadoRequest = req.body;
+      
+      // Validar que se proporcionó el ID o código del asociado
+      if (!asociadoId) {
+        return res.status(400).json({
+          success: false,
+          message: 'Se requiere un ID o código de asociado válido'
+        });
+      }
       
       // Validar que el nuevo estado sea válido
       if (!ESTADOS_VALIDOS.includes(nuevoEstado as EstadoPipeline)) {
@@ -74,10 +145,27 @@ export class AsociadosController {
         })
       }
       
-      // Buscar el asociado
-      const asociado = await prisma.asociado.findUnique({
-        where: { id: asociadoId }
-      })
+      // Buscar el asociado por código o ID
+      let asociado = null;
+      
+      // Primero intentamos buscar por código (si es un string)
+      if (typeof asociadoId === 'string') {
+        asociado = await prisma.asociado.findFirst({
+          where: { 
+            OR: [
+              { codigo: asociadoId },
+              { identificacion: asociadoId }
+            ]
+          }
+        });
+      }
+      
+      // Si no se encontró por código, intentamos por ID numérico
+      if (!asociado && !isNaN(Number(asociadoId))) {
+        asociado = await prisma.asociado.findUnique({
+          where: { id: Number(asociadoId) }
+        });
+      }
       
       if (!asociado) {
         return res.status(404).json({
@@ -98,11 +186,13 @@ export class AsociadosController {
       }
       
       // Actualizar el asociado
+      const ahora = new Date()
       const asociadoActualizado = await prisma.asociado.update({
-        where: { id: asociadoId },
+        where: { id: asociado.id },  // Usamos el ID numérico del asociado encontrado
         data: {
           estado_pipeline: nuevoEstado,
-          ultima_actualizacion: new Date()
+          ultima_actualizacion: ahora,
+          updatedAt: ahora
         }
       })
       
@@ -168,12 +258,20 @@ export class AsociadosController {
   // Actualizar información de un asociado
   async updateAsociado(req: Request, res: Response) {
     try {
-      const { id } = req.params;
+      const asociadoId = req.body.asociadoId;
+      
+      if (!asociadoId) {
+        return res.status(400).json({
+          success: false,
+          message: 'El ID del asociado es requerido'
+        });
+      }
+      
       const { codigo, nombre, identificacion } = req.body;
       
       // Verificar si el asociado existe
       const asociadoExistente = await prisma.asociado.findUnique({
-        where: { id }
+        where: { id: asociadoId },
       });
       
       if (!asociadoExistente) {
@@ -185,7 +283,7 @@ export class AsociadosController {
       
       // Actualizar el asociado
       const asociadoActualizado = await prisma.asociado.update({
-        where: { id },
+        where: { id: asociadoId },
         data: {
           codigo,
           nombre,

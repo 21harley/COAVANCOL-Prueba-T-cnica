@@ -1,7 +1,16 @@
-import { PrismaClient } from '@prisma/client/edge'
+import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient({
-  datasourceUrl: 'file:./dev.db'
+declare global {
+  // eslint-disable-next-line no-var
+  var prisma: PrismaClient | undefined
+}
+
+const prisma = global.prisma || new PrismaClient({
+  log: ['query'],
 })
+
+if (process.env.NODE_ENV !== 'production') {
+  global.prisma = prisma
+}
 
 export default prisma
