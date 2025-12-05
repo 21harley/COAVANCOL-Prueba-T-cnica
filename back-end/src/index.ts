@@ -11,7 +11,7 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 // Routes
-app.use('/asociados', asociadosRoutes)
+app.use('/api/v1/asociados', asociadosRoutes)
 
 // Health check
 app.get('/health', (req, res) => {
@@ -38,6 +38,5 @@ app.use((error: any, req: express.Request, res: express.Response, next: express.
 
 // Start server
 app.listen(PORT, () => {
-  console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`)
-  console.log(`📊 Prisma Studio disponible en http://localhost:5555`)
+  console.log(`Servidor corriendo en http://localhost:${PORT}`)
 })

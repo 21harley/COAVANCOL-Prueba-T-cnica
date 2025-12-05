@@ -1,0 +1,116 @@
+{
+	"info": {
+		"_postman_id": "d5826d5b-f0e9-4ba7-aab8-b2ca7929ef6a",
+		"name": "test-endpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19250072"
+	},
+	"item": [
+		{
+			"name": "All Copy",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDY4YzY1ZjliZGE2MWMzY2EzMTk5YjM2Mjc0YjExZGI4YTEzZWU5NmUxMGYzZTVlMzE5MzgyMDU4NGQwYzk4NWNhZDM5ZmE5ZDdhMjI2MTYiLCJpYXQiOjE3Mjc3NDkzNTkuMDQzMTc4LCJuYmYiOjE3Mjc3NDkzNTkuMDQzMTgxLCJleHAiOjE3Mjc4MzU3NTkuMDM2NjAyLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.LKQdmB8yBHdw4Mk6osfI-aUmc97QmggSBMDcm3bH8b6o9Yq0tLcyeXP4Qzac2dNklup1H47-NglpOyL6BCZzLRG68zg1uqx2EXPKvkD6HnzacGiO4dJvLKfZZo59NLb5ETlZXXwl7fMdgV-vRur9uYo9WpKijTcq1hL3DwSqrvEYnYpd6QzA1-jEY4CZbG5RRrza3nZaCu215kTGuOfIb3XgZrN5VsVEQyoqxwhuYWPejPEI990jsI92R2HAyImK2GElvLUAI3_uArBVquwwcePRpe_dZ1vEeboKhsQHs6pPBIVF2oS9GYH_VjPg2-p7BpVtGP6815DiTt6xpWc5k6xrShOCUQkMp6bQdHy1g0EJfMKPSH_WKqxomcT_5OBdrWFJw6p4c1BQsWnhhWAvYJJLSl_JjXmAuqJdejJuBp1qGpITcz9BuyLUZvwyzwkFzmEIca1sIzYm1q6vY0-DYwAcVUHIEkm-Ztz4iE-ApZZaMXIAuzS7tw08fuuhaa42hvG3_gxIe5zBhx72RXT0bh3AKcBd32EONROCYa-A0crrg5W6trnPksnBfo_ZWrPiy1nC851gSc2TRedveogXTKeOXpwRZv1G_gB7I5Lu6RYHRhjxcX4RHZLxMbBp5xyBPdRuv6LfgJ60p8VfYeT8kAMjlZJmJFHl4GZ2USZ7fE4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/notes",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"notes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDY4YzY1ZjliZGE2MWMzY2EzMTk5YjM2Mjc0YjExZGI4YTEzZWU5NmUxMGYzZTVlMzE5MzgyMDU4NGQwYzk4NWNhZDM5ZmE5ZDdhMjI2MTYiLCJpYXQiOjE3Mjc3NDkzNTkuMDQzMTc4LCJuYmYiOjE3Mjc3NDkzNTkuMDQzMTgxLCJleHAiOjE3Mjc4MzU3NTkuMDM2NjAyLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.LKQdmB8yBHdw4Mk6osfI-aUmc97QmggSBMDcm3bH8b6o9Yq0tLcyeXP4Qzac2dNklup1H47-NglpOyL6BCZzLRG68zg1uqx2EXPKvkD6HnzacGiO4dJvLKfZZo59NLb5ETlZXXwl7fMdgV-vRur9uYo9WpKijTcq1hL3DwSqrvEYnYpd6QzA1-jEY4CZbG5RRrza3nZaCu215kTGuOfIb3XgZrN5VsVEQyoqxwhuYWPejPEI990jsI92R2HAyImK2GElvLUAI3_uArBVquwwcePRpe_dZ1vEeboKhsQHs6pPBIVF2oS9GYH_VjPg2-p7BpVtGP6815DiTt6xpWc5k6xrShOCUQkMp6bQdHy1g0EJfMKPSH_WKqxomcT_5OBdrWFJw6p4c1BQsWnhhWAvYJJLSl_JjXmAuqJdejJuBp1qGpITcz9BuyLUZvwyzwkFzmEIca1sIzYm1q6vY0-DYwAcVUHIEkm-Ztz4iE-ApZZaMXIAuzS7tw08fuuhaa42hvG3_gxIe5zBhx72RXT0bh3AKcBd32EONROCYa-A0crrg5W6trnPksnBfo_ZWrPiy1nC851gSc2TRedveogXTKeOXpwRZv1G_gB7I5Lu6RYHRhjxcX4RHZLxMbBp5xyBPdRuv6LfgJ60p8VfYeT8kAMjlZJmJFHl4GZ2USZ7fE4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/asociados/50",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"asociados",
+						"50"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update pipeline status",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNDY4YzY1ZjliZGE2MWMzY2EzMTk5YjM2Mjc0YjExZGI4YTEzZWU5NmUxMGYzZTVlMzE5MzgyMDU4NGQwYzk4NWNhZDM5ZmE5ZDdhMjI2MTYiLCJpYXQiOjE3Mjc3NDkzNTkuMDQzMTc4LCJuYmYiOjE3Mjc3NDkzNTkuMDQzMTgxLCJleHAiOjE3Mjc4MzU3NTkuMDM2NjAyLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.LKQdmB8yBHdw4Mk6osfI-aUmc97QmggSBMDcm3bH8b6o9Yq0tLcyeXP4Qzac2dNklup1H47-NglpOyL6BCZzLRG68zg1uqx2EXPKvkD6HnzacGiO4dJvLKfZZo59NLb5ETlZXXwl7fMdgV-vRur9uYo9WpKijTcq1hL3DwSqrvEYnYpd6QzA1-jEY4CZbG5RRrza3nZaCu215kTGuOfIb3XgZrN5VsVEQyoqxwhuYWPejPEI990jsI92R2HAyImK2GElvLUAI3_uArBVquwwcePRpe_dZ1vEeboKhsQHs6pPBIVF2oS9GYH_VjPg2-p7BpVtGP6815DiTt6xpWc5k6xrShOCUQkMp6bQdHy1g0EJfMKPSH_WKqxomcT_5OBdrWFJw6p4c1BQsWnhhWAvYJJLSl_JjXmAuqJdejJuBp1qGpITcz9BuyLUZvwyzwkFzmEIca1sIzYm1q6vY0-DYwAcVUHIEkm-Ztz4iE-ApZZaMXIAuzS7tw08fuuhaa42hvG3_gxIe5zBhx72RXT0bh3AKcBd32EONROCYa-A0crrg5W6trnPksnBfo_ZWrPiy1nC851gSc2TRedveogXTKeOXpwRZv1G_gB7I5Lu6RYHRhjxcX4RHZLxMbBp5xyBPdRuv6LfgJ60p8VfYeT8kAMjlZJmJFHl4GZ2USZ7fE4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"asociadoId\": \"asoc050\",\r\n  \"nuevoEstado\": \"Pendiente Jurídico\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/asociados/update-estado",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"asociados",
+						"update-estado"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
