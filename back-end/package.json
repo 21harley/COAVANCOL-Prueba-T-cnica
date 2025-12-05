@@ -10,7 +10,9 @@
     "seed": "ts-node prisma/seed.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
-    "prisma:studio": "prisma studio"
+    "prisma:studio": "prisma studio",
+    "reset-db": "del /f prisma\\dev.db && npx prisma migrate dev --name reset && npm run seed",
+    "setup-db": "npx prisma migrate dev --name init && npm run seed"
   },
   "keywords": [],
   "author": "",
