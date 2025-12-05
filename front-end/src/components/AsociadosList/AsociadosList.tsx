@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -17,10 +17,19 @@ import {
   Box,
   IconButton,
   Tooltip,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Snackbar,
 } from '@mui/material';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import CloseIcon from '@mui/icons-material/Close';
 import useAsociados from '../../hooks/useAsociados';
-import type { EstadoPipeline } from '../../core/types/asociado';
+import { updateEstadoAsociado, getProximosEstadosValidos } from '../../services/api';
+import type { Asociado, EstadoPipeline } from '../../core/types/asociado';
+
 
 const AsociadosList: React.FC = () => {
   const { 
@@ -31,6 +40,11 @@ const AsociadosList: React.FC = () => {
     setFilter, 
     refetch 
   } = useAsociados();
+  
+  const [selectedAsociado, setSelectedAsociado] = useState<Asociado | null>(null);
+  const [newEstado, setNewEstado] = useState<EstadoPipeline>('Prospecto');
+  const [openDialog, setOpenDialog] = useState(false);
+  const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' });
 
   const filterOptions: (EstadoPipeline | 'Todos')[] = [
     'Todos',
@@ -43,6 +57,44 @@ const AsociadosList: React.FC = () => {
     'Cartera Activa',
     'Desembolsado/Finalizado'
   ];
+
+
+  const handleOpenDialog = (asociado: Asociado) => {
+    setSelectedAsociado(asociado);
+    setNewEstado(asociado.estado_pipeline);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedAsociado(null);
+  };
+
+  const handleUpdateEstado = async () => {
+    if (!selectedAsociado) return;
+    
+    try {
+await updateEstadoAsociado({
+        asociadoId: selectedAsociado.id,
+        nuevoEstado: newEstado
+      });
+      
+      await refetch();
+      handleCloseDialog();
+      showSnackbar('Estado actualizado exitosamente', 'success');
+    } catch (error) {
+      console.error('Error al actualizar el estado:', error);
+      showSnackbar('Error al actualizar el estado', 'error');
+    }
+  };
+
+  const showSnackbar = (message: string, severity: 'success' | 'error') => {
+    setSnackbar({ open: true, message, severity });
+  };
+
+  const handleCloseSnackbar = () => {
+    setSnackbar(prev => ({ ...prev, open: false }));
+  };
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -141,6 +193,7 @@ const AsociadosList: React.FC = () => {
               <TableCell className="font-bold">Identificación</TableCell>
               <TableCell className="font-bold">Estado</TableCell>
               <TableCell className="font-bold">Última Actualización</TableCell>
+              <TableCell className="font-bold">Acciones</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -170,6 +223,17 @@ const AsociadosList: React.FC = () => {
                       minute: '2-digit'
                     })}
                   </TableCell>
+                  <TableCell>
+                    <Box display="flex" gap={1}>
+                      <Button 
+                        variant="outlined" 
+                        size="small"
+                        onClick={() => handleOpenDialog(asociado)}
+                      >
+                        Cambiar Estado
+                      </Button>
+                    </Box>
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
@@ -189,6 +253,68 @@ const AsociadosList: React.FC = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* Dialogo para cambiar estado */}
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
+        <DialogTitle>Cambiar Estado del Asociado</DialogTitle>
+        <DialogContent>
+          {selectedAsociado && (
+            <Box mt={2} minWidth={300}>
+              <Typography variant="body1" gutterBottom>
+                <strong>Asociado:</strong> {selectedAsociado.nombre}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" gutterBottom>
+                Estado actual: {selectedAsociado.estado_pipeline}
+              </Typography>
+              
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="estado-select-label">Nuevo Estado</InputLabel>
+                <Select
+                  labelId="estado-select-label"
+                  value={newEstado}
+                  label="Nuevo Estado"
+                  onChange={(e) => setNewEstado(e.target.value as EstadoPipeline)}
+                >
+                  {getProximosEstadosValidos(selectedAsociado.estado_pipeline).map((estado) => (
+                    <MenuItem key={estado} value={estado}>
+                      {estado}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Cancelar</Button>
+          <Button 
+            onClick={handleUpdateEstado} 
+            variant="contained" 
+            color="primary"
+            disabled={!newEstado || newEstado === selectedAsociado?.estado_pipeline}
+          >
+            Guardar Cambios
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Snackbar para notificaciones */}
+      <Snackbar
+        open={snackbar.open}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message={snackbar.message}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleCloseSnackbar}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        }
+      />
 
       <Box mt={2} display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="body2" color="textSecondary">

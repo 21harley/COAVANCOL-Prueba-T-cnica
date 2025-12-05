@@ -1,5 +1,7 @@
+import React from 'react';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import Container from '@mui/material/Container';
 import AsociadosList from './components/AsociadosList/AsociadosList';
 
 const theme = createTheme({
@@ -10,15 +12,20 @@ const theme = createTheme({
     secondary: {
       main: '#dc004e',
     },
-    background: {
-      default: '#f5f5f5',
-    },
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
           textTransform: 'none',
+        },
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        head: {
+          fontWeight: 600,
+          backgroundColor: '#f9fafb',
         },
       },
     },
@@ -29,18 +36,22 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white shadow">
-          <div className="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
-            <h1 className="text-2xl font-bold text-gray-900">Sistema de Gestión de Asociados</h1>
-          </div>
+      <Container maxWidth="lg" className="py-8">
+        <header className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-800">
+            Sistema de Gestión de Asociados
+          </h1>
+          <p className="text-gray-600 mt-2">
+            Administra y filtra los asociados según su estado en el pipeline
+          </p>
         </header>
         <main>
-          <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-            <AsociadosList />
-          </div>
+          <AsociadosList />
         </main>
-      </div>
+        <footer className="mt-12 pt-6 border-t border-gray-200 text-center text-gray-500 text-sm">
+          <p>© {new Date().getFullYear()} Sistema de Asociados. Todos los derechos reservados.</p>
+        </footer>
+      </Container>
     </ThemeProvider>
   );
 }
