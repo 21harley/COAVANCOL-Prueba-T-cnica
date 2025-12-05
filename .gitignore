@@ -1,0 +1,50 @@
+
+# Dependencias de Node.js
+/back-end/node_modules/
+# Archivos de caché
+.npm
+.eslintcache
+.stylelintcache
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# Directorios de compilación/salida
+/dist
+/build
+/out
+/es
+/lib
+/tmp
+
+# Variables de entorno
+.env
+.env.development
+.env.production
+.env.*.local
+.env.local
+
+# Archivos de sesión/almacenamiento de base de datos local
+/sessions
+/db/*.sqlite # Si usas bases de datos locales
+
+# Archivos de registro del servidor
+/logs/*.log
+
+# Archivos de testing/cobertura
+/coverage
+
+# Directorio de salida de compilación de Vite (generalmente 'dist', pero lo ponemos de nuevo por si acaso)
+/dist
+
+# Archivos de caché de Vite (si se generan)
+.vite
+
+# Archivos de desarrollo específicos (ej. archivos temporales del editor/IDE)
+.idea
+.vscode
+*.sublime-workspace
