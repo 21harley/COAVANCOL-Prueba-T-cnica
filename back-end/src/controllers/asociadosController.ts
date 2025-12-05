@@ -129,6 +129,7 @@ export class AsociadosController {
   async createAsociado(req: Request, res: Response) {
     try {
       const { codigo, nombre, identificacion, estado_pipeline } = req.body
+      const ahora = new Date();
       
       // Validar estado inicial
       if (estado_pipeline && !ESTADOS_VALIDOS.includes(estado_pipeline as EstadoPipeline)) {
@@ -143,7 +144,10 @@ export class AsociadosController {
           codigo,
           nombre,
           identificacion,
-          estado_pipeline: estado_pipeline || 'Prospecto'
+          estado_pipeline: estado_pipeline || 'Prospecto',
+          ultima_actualizacion: ahora,
+          createdAt: ahora,
+          updatedAt: ahora
         }
       })
       
@@ -158,6 +162,50 @@ export class AsociadosController {
         message: 'Error al crear asociado',
         error: error instanceof Error ? error.message : 'Unknown error'
       })
+    }
+  }
+
+  // Actualizar información de un asociado
+  async updateAsociado(req: Request, res: Response) {
+    try {
+      const { id } = req.params;
+      const { codigo, nombre, identificacion } = req.body;
+      
+      // Verificar si el asociado existe
+      const asociadoExistente = await prisma.asociado.findUnique({
+        where: { id }
+      });
+      
+      if (!asociadoExistente) {
+        return res.status(404).json({
+          success: false,
+          message: 'Asociado no encontrado'
+        });
+      }
+      
+      // Actualizar el asociado
+      const asociadoActualizado = await prisma.asociado.update({
+        where: { id },
+        data: {
+          codigo,
+          nombre,
+          identificacion,
+          ultima_actualizacion: new Date()
+        }
+      });
+      
+      res.json({
+        success: true,
+        message: 'Asociado actualizado correctamente',
+        data: asociadoActualizado
+      });
+      
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Error al actualizar asociado',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
     }
   }
 }
